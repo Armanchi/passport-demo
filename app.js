@@ -67,7 +67,6 @@ passport.deserializeUser(function(id, done) {
   });
 
 
-
 const app = express();
 app.set("views", __dirname);
 app.set("view engine", "ejs");
@@ -99,7 +98,6 @@ const authMiddleware = (req, res, next) => {
 }
 
 
-
 app.get("/", (req, res) => {
   let messages = []
   if (req.session.messages) {
@@ -121,7 +119,7 @@ app.post("/sign-up", async (req, res, next) => {
   }
 });
 
-  app.post(
+app.post(
     "/log-in",
     passport.authenticate("local", {
       successRedirect: "/",
@@ -131,13 +129,13 @@ app.post("/sign-up", async (req, res, next) => {
   
   );
 
-  app.get("/log-out", (req, res) => {
+app.get("/log-out", (req, res) => {
     req.session.destroy(function (err) {
       res.redirect("/")
     })
   });
 
-  app.get('/restricted', authMiddleware, (req, res) => {
+app.get('/restricted', authMiddleware, (req, res) => {
     if (!req.session.pageCount) {
       req.session.pageCount = 1
     } else {
